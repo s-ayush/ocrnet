@@ -132,6 +132,7 @@ class Network(object):
         x = np.array([[val] for val in a])
         output_layer = self.feedforward(x)
         if verbose:
+            print "This is what the network thinks."
             for i in range(10):
                 print i, output_layer[i]
 

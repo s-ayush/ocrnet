@@ -3,10 +3,11 @@ import json
 from network2 import *
 import numpy as np
 
-HOST_NAME = 'localhost'
+# Local address of the server
+HOST_NAME = '10.0.24.185'
 PORT_NUMBER = 8000
 HIDDEN_NODE_COUNT = 100
-EPOCH = 30
+EPOCH = 60
 MINI_BATCH_SIZE = 10
 REGULARIZATION = 5.0
 LEARNING_RATE = 0.1

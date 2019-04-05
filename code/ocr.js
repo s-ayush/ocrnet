@@ -18,7 +18,8 @@ var ocrDemo = {
 
     // Server Variables
     PORT: "8000",
-    HOST: "http://localhost",
+	// Local address of the server
+    HOST: "http://10.0.24.185",
 
     // Colors
     BLACK: "#000000",
@@ -45,6 +46,37 @@ var ocrDemo = {
         canvas.onmousemove = function(e) { this.onMouseMove(e, ctx, canvas) }.bind(this);
         canvas.onmousedown = function(e) { this.onMouseDown(e, ctx, canvas) }.bind(this);
         canvas.onmouseup = function(e) { this.onMouseUp(e, ctx) }.bind(this);
+
+		canvas.ontouchstart = function(e) {
+			var touch = e.touches[0];
+			var mouseEvent = new MouseEvent('mousedown', {
+				clientX: touch.clientX,
+				clientY: touch.clientY
+			});
+			console.log('touching me');
+			canvas.dispatchEvent(mouseEvent);
+		}.bind(this);
+
+		canvas.ontouchmove = function(e) {
+			var touch = e.touches[0];
+			var mouseEvent = new MouseEvent('mousemove', {
+				clientX: touch.clientX,
+				clientY: touch.clientY
+			});
+			console.log('moving me');
+			canvas.dispatchEvent(mouseEvent);
+		}.bind(this);
+
+		canvas.ontouchend = function(e) {
+			var touch = e.touches[0];
+			var mouseEvent = new MouseEvent('mouseup', {
+				clientX: touch.clientX,
+				clientY: touch.clientY
+			});
+			console.log('ending me');
+			canvas.dispatchEvent(mouseEvent);
+		}.bind(this);
+
     },
 
     drawGrid: function(ctx) {
@@ -116,12 +148,13 @@ var ocrDemo = {
 
     sendData: function(json) {
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open('POST', this.HOST + ":" + this.PORT, false);
+        xmlHttp.open('POST', this.HOST + ":" + this.PORT, true);
         xmlHttp.onload = function() { this.receiveResponse(xmlHttp); }.bind(this);
         xmlHttp.onerror = function() { this.onError(xmlHttp) }.bind(this);
         var msg = JSON.stringify(json);
-        xmlHttp.setRequestHeader('Content-length', msg.length);
-        xmlHttp.setRequestHeader("Connection", "close");
+//		xmlHttp.setRequestHeader('Access-Control-Allow-Origin', '*');
+//        xmlHttp.setRequestHeader('Content-length', msg.length);
+//        xmlHttp.setRequestHeader("Connection", "close");
         xmlHttp.send(msg);
     }
 }
